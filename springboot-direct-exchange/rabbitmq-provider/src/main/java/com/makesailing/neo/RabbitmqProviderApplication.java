@@ -12,10 +12,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @Slf4j
 @SpringBootApplication
-public class RabbitmqProvierApplication {
+public class RabbitmqProviderApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(RabbitmqProvierApplication.class, args);
+    SpringApplication.run(RabbitmqProviderApplication.class, args);
     log.info("【【【【【消息队列-消息提供者启动成功.】】】】】");
   }
 }

@@ -27,61 +27,38 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
-
-    <springframework_boot.version>1.5.14.RELEASE</springframework_boot.version>
-    <mysql.version>5.1.40</mysql.version>
-    <fastjson.version>1.2.35</fastjson.version>
   </properties>
-  <dependencyManagement>
+
   <dependencies>
+    <!--rabbitmq依赖-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-amqp</artifactId>
-      <version>${springframework_boot.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
-      <version>${springframework_boot.version}</version>
-    </dependency>
+    <!--web依赖-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <version>${springframework_boot.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <version>${springframework_boot.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>${mysql.version}</version>
-    </dependency>
+    <!--lombok依赖-->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.16.18</version>
+      <optional>true</optional>
     </dependency>
-
     <!--fastjson依赖-->
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
-      <version>${fastjson.version}</version>
+      <version>1.2.40</version>
     </dependency>
-
+    <!--测试依赖-->
     <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>druid</artifactId>
-      <version>1.0.29</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
     </dependency>
-
   </dependencies>
-  </dependencyManagement>
 
   <build>
     <plugins>

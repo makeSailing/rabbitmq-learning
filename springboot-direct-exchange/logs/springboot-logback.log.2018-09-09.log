@@ -179,3 +179,212 @@ Caused by: java.nio.charset.MalformedInputException: Input length = 1
 	at java.io.Reader.read(Reader.java:140)
 	at org.yaml.snakeyaml.reader.StreamReader.update(StreamReader.java:184)
 	... 26 common frames omitted
+2018-09-09 19:56:38.761 [main] ERROR org.springframework.boot.SpringApplication - Application startup failed
+java.lang.IllegalStateException: Failed to load property source from location 'classpath:/application.yml'
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.loadIntoGroup(ConfigFileApplicationListener.java:476)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.load(ConfigFileApplicationListener.java:465)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.load(ConfigFileApplicationListener.java:386)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.addPropertySources(ConfigFileApplicationListener.java:225)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.postProcessEnvironment(ConfigFileApplicationListener.java:195)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.onApplicationEnvironmentPreparedEvent(ConfigFileApplicationListener.java:182)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.onApplicationEvent(ConfigFileApplicationListener.java:168)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.makesailing.neo.RabbitmqProvierApplication.main(RabbitmqProvierApplication.java:18)
+Caused by: org.yaml.snakeyaml.error.YAMLException: java.nio.charset.MalformedInputException: Input length = 1
+	at org.yaml.snakeyaml.reader.StreamReader.update(StreamReader.java:200)
+	at org.yaml.snakeyaml.reader.StreamReader.<init>(StreamReader.java:60)
+	at org.yaml.snakeyaml.Yaml.loadAll(Yaml.java:463)
+	at org.springframework.beans.factory.config.YamlProcessor.process(YamlProcessor.java:157)
+	at org.springframework.beans.factory.config.YamlProcessor.process(YamlProcessor.java:135)
+	at org.springframework.boot.env.YamlPropertySourceLoader$Processor.process(YamlPropertySourceLoader.java:101)
+	at org.springframework.boot.env.YamlPropertySourceLoader.load(YamlPropertySourceLoader.java:58)
+	at org.springframework.boot.env.PropertySourcesLoader.load(PropertySourcesLoader.java:128)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.doLoadIntoGroup(ConfigFileApplicationListener.java:490)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.loadIntoGroup(ConfigFileApplicationListener.java:473)
+	... 17 common frames omitted
+Caused by: java.nio.charset.MalformedInputException: Input length = 1
+	at java.nio.charset.CoderResult.throwException(CoderResult.java:281)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:339)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at org.yaml.snakeyaml.reader.UnicodeReader.read(UnicodeReader.java:123)
+	at java.io.Reader.read(Reader.java:140)
+	at org.yaml.snakeyaml.reader.StreamReader.update(StreamReader.java:184)
+	... 26 common frames omitted
+2018-09-09 19:57:51.623 [main] ERROR org.springframework.boot.SpringApplication - Application startup failed
+java.lang.IllegalStateException: Failed to load property source from location 'classpath:/application.yml'
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.loadIntoGroup(ConfigFileApplicationListener.java:476)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.load(ConfigFileApplicationListener.java:465)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.load(ConfigFileApplicationListener.java:386)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.addPropertySources(ConfigFileApplicationListener.java:225)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.postProcessEnvironment(ConfigFileApplicationListener.java:195)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.onApplicationEnvironmentPreparedEvent(ConfigFileApplicationListener.java:182)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.onApplicationEvent(ConfigFileApplicationListener.java:168)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.makesailing.neo.RabbitmqProvierApplication.main(RabbitmqProvierApplication.java:18)
+Caused by: org.yaml.snakeyaml.error.YAMLException: java.nio.charset.MalformedInputException: Input length = 1
+	at org.yaml.snakeyaml.reader.StreamReader.update(StreamReader.java:200)
+	at org.yaml.snakeyaml.reader.StreamReader.<init>(StreamReader.java:60)
+	at org.yaml.snakeyaml.Yaml.loadAll(Yaml.java:463)
+	at org.springframework.beans.factory.config.YamlProcessor.process(YamlProcessor.java:157)
+	at org.springframework.beans.factory.config.YamlProcessor.process(YamlProcessor.java:135)
+	at org.springframework.boot.env.YamlPropertySourceLoader$Processor.process(YamlPropertySourceLoader.java:101)
+	at org.springframework.boot.env.YamlPropertySourceLoader.load(YamlPropertySourceLoader.java:58)
+	at org.springframework.boot.env.PropertySourcesLoader.load(PropertySourcesLoader.java:128)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.doLoadIntoGroup(ConfigFileApplicationListener.java:490)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.loadIntoGroup(ConfigFileApplicationListener.java:473)
+	... 17 common frames omitted
+Caused by: java.nio.charset.MalformedInputException: Input length = 1
+	at java.nio.charset.CoderResult.throwException(CoderResult.java:281)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:339)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at org.yaml.snakeyaml.reader.UnicodeReader.read(UnicodeReader.java:123)
+	at java.io.Reader.read(Reader.java:140)
+	at org.yaml.snakeyaml.reader.StreamReader.update(StreamReader.java:184)
+	... 26 common frames omitted
+2018-09-09 19:59:07.806 [main] ERROR org.springframework.boot.SpringApplication - Application startup failed
+java.lang.IllegalStateException: Failed to load property source from location 'classpath:/application.yml'
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.loadIntoGroup(ConfigFileApplicationListener.java:476)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.load(ConfigFileApplicationListener.java:465)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.load(ConfigFileApplicationListener.java:386)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.addPropertySources(ConfigFileApplicationListener.java:225)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.postProcessEnvironment(ConfigFileApplicationListener.java:195)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.onApplicationEnvironmentPreparedEvent(ConfigFileApplicationListener.java:182)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener.onApplicationEvent(ConfigFileApplicationListener.java:168)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.makesailing.neo.RabbitmqProvierApplication.main(RabbitmqProvierApplication.java:18)
+Caused by: org.yaml.snakeyaml.error.YAMLException: java.nio.charset.MalformedInputException: Input length = 1
+	at org.yaml.snakeyaml.reader.StreamReader.update(StreamReader.java:200)
+	at org.yaml.snakeyaml.reader.StreamReader.<init>(StreamReader.java:60)
+	at org.yaml.snakeyaml.Yaml.loadAll(Yaml.java:463)
+	at org.springframework.beans.factory.config.YamlProcessor.process(YamlProcessor.java:157)
+	at org.springframework.beans.factory.config.YamlProcessor.process(YamlProcessor.java:135)
+	at org.springframework.boot.env.YamlPropertySourceLoader$Processor.process(YamlPropertySourceLoader.java:101)
+	at org.springframework.boot.env.YamlPropertySourceLoader.load(YamlPropertySourceLoader.java:58)
+	at org.springframework.boot.env.PropertySourcesLoader.load(PropertySourcesLoader.java:128)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.doLoadIntoGroup(ConfigFileApplicationListener.java:490)
+	at org.springframework.boot.context.config.ConfigFileApplicationListener$Loader.loadIntoGroup(ConfigFileApplicationListener.java:473)
+	... 17 common frames omitted
+Caused by: java.nio.charset.MalformedInputException: Input length = 1
+	at java.nio.charset.CoderResult.throwException(CoderResult.java:281)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:339)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at org.yaml.snakeyaml.reader.UnicodeReader.read(UnicodeReader.java:123)
+	at java.io.Reader.read(Reader.java:140)
+	at org.yaml.snakeyaml.reader.StreamReader.update(StreamReader.java:184)
+	... 26 common frames omitted
+2018-09-09 20:35:58.803 [main] INFO  com.makesailing.neo.RabbitmqProvierApplication - Starting RabbitmqProvierApplication on jamie-li with PID 16392 (C:\java_work\jamie.li_review\rabbitmq-learning\springboot-direct-exchange\rabbitmq-provider\target\classes started by Administrator in C:\java_work\jamie.li_review\rabbitmq-learning\springboot-direct-exchange)
+2018-09-09 20:35:58.809 [main] INFO  com.makesailing.neo.RabbitmqProvierApplication - No active profile set, falling back to default profiles: default
+2018-09-09 20:35:58.910 [main] INFO  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext - Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7fbdb894: startup date [Sun Sep 09 20:35:58 CST 2018]; root of context hierarchy
+2018-09-09 20:35:59.195 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.6.Final
+2018-09-09 20:36:00.445 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$2cb49294] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-09-09 20:36:00.598 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6648d466] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-09-09 20:36:01.180 [main] INFO  o.s.b.c.e.tomcat.TomcatEmbeddedServletContainer - Tomcat initialized with port(s): 8080 (http)
+2018-09-09 20:36:01.200 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2018-09-09 20:36:01.219 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2018-09-09 20:36:01.219 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.31
+2018-09-09 20:36:01.427 [localhost-startStop-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2018-09-09 20:36:01.428 [localhost-startStop-1] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 2519 ms
+2018-09-09 20:36:01.924 [localhost-startStop-1] INFO  o.s.boot.web.servlet.ServletRegistrationBean - Mapping servlet: 'dispatcherServlet' to [/]
+2018-09-09 20:36:01.938 [localhost-startStop-1] INFO  o.s.boot.web.servlet.FilterRegistrationBean - Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-09-09 20:36:01.939 [localhost-startStop-1] INFO  o.s.boot.web.servlet.FilterRegistrationBean - Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-09-09 20:36:01.939 [localhost-startStop-1] INFO  o.s.boot.web.servlet.FilterRegistrationBean - Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-09-09 20:36:01.942 [localhost-startStop-1] INFO  o.s.boot.web.servlet.FilterRegistrationBean - Mapping filter: 'requestContextFilter' to: [/*]
+2018-09-09 20:36:03.172 [main] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Building JPA container EntityManagerFactory for persistence unit 'default'
+2018-09-09 20:36:03.188 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2018-09-09 20:36:03.301 [main] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.0.12.Final}
+2018-09-09 20:36:03.305 [main] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2018-09-09 20:36:03.307 [main] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+2018-09-09 20:36:03.371 [main] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-09-09 20:36:03.589 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2018-09-09 20:36:04.266 [main] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2018-09-09 20:36:05.215 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerAdapter - Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7fbdb894: startup date [Sun Sep 09 20:35:58 CST 2018]; root of context hierarchy
+2018-09-09 20:36:05.332 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/user/save],methods=[POST]}" onto public com.makesailing.neo.domain.UserEntity com.makesailing.neo.controller.UserController.save(com.makesailing.neo.domain.UserEntity) throws java.lang.Exception
+2018-09-09 20:36:05.336 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-09-09 20:36:05.339 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-09-09 20:36:05.421 [main] INFO  o.s.web.servlet.handler.SimpleUrlHandlerMapping - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-09 20:36:05.423 [main] INFO  o.s.web.servlet.handler.SimpleUrlHandlerMapping - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-09 20:36:05.518 [main] INFO  o.s.web.servlet.handler.SimpleUrlHandlerMapping - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-09 20:36:06.256 [main] INFO  o.s.jmx.export.annotation.AnnotationMBeanExporter - Registering beans for JMX exposure on startup
+2018-09-09 20:36:06.273 [main] INFO  o.s.jmx.export.annotation.AnnotationMBeanExporter - Bean with name 'rabbitConnectionFactory' has been autodetected for JMX exposure
+2018-09-09 20:36:06.278 [main] INFO  o.s.jmx.export.annotation.AnnotationMBeanExporter - Located managed bean 'rabbitConnectionFactory': registering with JMX server as MBean [org.springframework.amqp.rabbit.connection:name=rabbitConnectionFactory,type=CachingConnectionFactory]
+2018-09-09 20:36:06.307 [main] INFO  o.s.context.support.DefaultLifecycleProcessor - Starting beans in phase 2147483647
+2018-09-09 20:36:06.319 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2018-09-09 20:36:06.337 [main] INFO  org.apache.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+2018-09-09 20:36:06.361 [main] INFO  o.s.b.c.e.tomcat.TomcatEmbeddedServletContainer - Tomcat started on port(s): 8080 (http)
+2018-09-09 20:36:06.368 [main] INFO  com.makesailing.neo.RabbitmqProvierApplication - Started RabbitmqProvierApplication in 8.318 seconds (JVM running for 10.669)
+2018-09-09 20:36:06.370 [main] INFO  com.makesailing.neo.RabbitmqProvierApplication - 【【【【【消息队列-消息提供者启动成功.】】】】】
+2018-09-09 20:37:50.930 [main] INFO  com.makesailing.neo.RabbitmqProvierApplication - Starting RabbitmqProvierApplication on jamie-li with PID 16976 (C:\java_work\jamie.li_review\rabbitmq-learning\springboot-direct-exchange\rabbitmq-provider\target\classes started by Administrator in C:\java_work\jamie.li_review\rabbitmq-learning\springboot-direct-exchange)
+2018-09-09 20:37:50.936 [main] INFO  com.makesailing.neo.RabbitmqProvierApplication - No active profile set, falling back to default profiles: default
+2018-09-09 20:37:51.008 [main] INFO  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext - Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@59cba5a: startup date [Sun Sep 09 20:37:51 CST 2018]; root of context hierarchy
+2018-09-09 20:37:51.217 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.6.Final
+2018-09-09 20:37:52.835 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$f325d231] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-09-09 20:37:52.960 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$2cba1403] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-09-09 20:37:53.553 [main] INFO  o.s.b.c.e.tomcat.TomcatEmbeddedServletContainer - Tomcat initialized with port(s): 8080 (http)
+2018-09-09 20:37:53.576 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2018-09-09 20:37:53.595 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2018-09-09 20:37:53.596 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.31
+2018-09-09 20:37:53.814 [localhost-startStop-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2018-09-09 20:37:53.814 [localhost-startStop-1] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 2806 ms
+2018-09-09 20:37:54.092 [localhost-startStop-1] INFO  o.s.boot.web.servlet.ServletRegistrationBean - Mapping servlet: 'dispatcherServlet' to [/]
+2018-09-09 20:37:54.099 [localhost-startStop-1] INFO  o.s.boot.web.servlet.FilterRegistrationBean - Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-09-09 20:37:54.101 [localhost-startStop-1] INFO  o.s.boot.web.servlet.FilterRegistrationBean - Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-09-09 20:37:54.101 [localhost-startStop-1] INFO  o.s.boot.web.servlet.FilterRegistrationBean - Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-09-09 20:37:54.102 [localhost-startStop-1] INFO  o.s.boot.web.servlet.FilterRegistrationBean - Mapping filter: 'requestContextFilter' to: [/*]
+2018-09-09 20:37:54.837 [main] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Building JPA container EntityManagerFactory for persistence unit 'default'
+2018-09-09 20:37:54.852 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2018-09-09 20:37:54.964 [main] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.0.12.Final}
+2018-09-09 20:37:54.968 [main] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2018-09-09 20:37:54.969 [main] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+2018-09-09 20:37:55.029 [main] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-09-09 20:37:55.205 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2018-09-09 20:37:55.853 [main] INFO  o.s.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2018-09-09 20:37:56.810 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerAdapter - Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@59cba5a: startup date [Sun Sep 09 20:37:51 CST 2018]; root of context hierarchy
+2018-09-09 20:37:57.002 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/user/save],methods=[POST]}" onto public com.makesailing.neo.domain.UserEntity com.makesailing.neo.controller.UserController.save(com.makesailing.neo.domain.UserEntity) throws java.lang.Exception
+2018-09-09 20:37:57.011 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-09-09 20:37:57.014 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-09-09 20:37:57.152 [main] INFO  o.s.web.servlet.handler.SimpleUrlHandlerMapping - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-09 20:37:57.154 [main] INFO  o.s.web.servlet.handler.SimpleUrlHandlerMapping - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-09 20:37:57.289 [main] INFO  o.s.web.servlet.handler.SimpleUrlHandlerMapping - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-09 20:37:58.244 [main] INFO  o.s.jmx.export.annotation.AnnotationMBeanExporter - Registering beans for JMX exposure on startup
+2018-09-09 20:37:58.258 [main] INFO  o.s.jmx.export.annotation.AnnotationMBeanExporter - Bean with name 'rabbitConnectionFactory' has been autodetected for JMX exposure
+2018-09-09 20:37:58.264 [main] INFO  o.s.jmx.export.annotation.AnnotationMBeanExporter - Located managed bean 'rabbitConnectionFactory': registering with JMX server as MBean [org.springframework.amqp.rabbit.connection:name=rabbitConnectionFactory,type=CachingConnectionFactory]
+2018-09-09 20:37:58.293 [main] INFO  o.s.context.support.DefaultLifecycleProcessor - Starting beans in phase 2147483647
+2018-09-09 20:37:58.304 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2018-09-09 20:37:58.322 [main] INFO  org.apache.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+2018-09-09 20:37:58.346 [main] INFO  o.s.b.c.e.tomcat.TomcatEmbeddedServletContainer - Tomcat started on port(s): 8080 (http)
+2018-09-09 20:37:58.352 [main] INFO  com.makesailing.neo.RabbitmqProvierApplication - Started RabbitmqProvierApplication in 8.505 seconds (JVM running for 10.714)
+2018-09-09 20:37:58.354 [main] INFO  com.makesailing.neo.RabbitmqProvierApplication - 【【【【【消息队列-消息提供者启动成功.】】】】】

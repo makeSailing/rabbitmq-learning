@@ -1,14 +1,13 @@
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSON;
 import com.makesailing.neo.domain.UserEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -49,11 +48,10 @@ public class UserTest extends BaseTest {
     userEntity.setName("jamie");
     userEntity.setAge(18);
 
-    String responseString = mockMvc.perform( post("/user/save")
+     mockMvc.perform( post("/user/save")
         .contentType(MediaType.APPLICATION_JSON)
-        .content(JSONUtils.toJSONString(userEntity)))
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andReturn().getResponse().getContentAsString();
+        .content(JSON.toJSONString(userEntity)))
+        .andDo(MockMvcResultHandlers.log())
+        .andReturn();
   }
 }
