@@ -1,0 +1,20 @@
+
+spring:
+# rabbitmq ����
+  rabbitmq:
+#  �û���
+    username: guest
+#   ����
+    password: guest
+#    ��ַ
+    host: 127.0.0.1
+#    ����ռ��ַ
+    virtual-host: /
+#    �˿ں�
+    port: 5672
+#    ���÷�����Ϣȷ�ϻص�
+    publisher-confirms: true
+server:
+  port: 8082
+
+
