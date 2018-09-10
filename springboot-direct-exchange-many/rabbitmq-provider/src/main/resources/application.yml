@@ -1,0 +1,13 @@
+spring:
+    datasource:
+        driver-class-name: com.mysql.jdbc.Driver
+        password: abc
+        url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+        username: root
+    rabbitmq:
+        host: localhost
+        password: guest
+        port: 5672
+        publisher-confirms: true
+        username: guest
+        virtual-host: /

@@ -1,0 +1,9 @@
+spring:
+# rabbitmq 消息队列配置
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    virtual-host: /simple
+    publisher-confirms: true
+    username: jamie
+    password: 123456
