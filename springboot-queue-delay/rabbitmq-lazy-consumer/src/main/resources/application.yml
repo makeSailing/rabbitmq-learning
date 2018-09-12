@@ -1,0 +1,10 @@
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    username: jamie
+    password: 123456
+    virtual-host: /simple
+    port: 5672
+    publisher-confirms: true
+server:
+  port: 8082
