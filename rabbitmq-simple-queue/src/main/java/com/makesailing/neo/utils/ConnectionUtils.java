@@ -6,30 +6,25 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 /**
- * # RabbitMQ 连接工具类
+ * # RabbitMQ连接工具类
  *
  * @Author: jamie.li
- * @Date: Created in  2018/9/1 17:34
+ * @Date: Created in  2018/9/16 14:38
  */
 public class ConnectionUtils {
 
-  private static final String host = "127.0.0.1";
-  private static final int port = 5672;
+  public static final String host = "127.0.0.1";
 
-  /**
-   * 获取 RabbitMQ Connection 连接
-   * @return
-   * @throws IOException
-   * @throws TimeoutException
-   */
+  public static final Integer port = 5672;
+
   public static Connection getConnection() throws IOException, TimeoutException {
-    ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost(host);
-    factory.setPort(port);
-
-    factory.setUsername("guest");
-    factory.setPassword("guest");
-    return factory.newConnection();
+    ConnectionFactory connectionFactory = new ConnectionFactory();
+    connectionFactory.setHost(host);
+    connectionFactory.setPort(port);
+    // 如果有 用户名 密码 vhost 配置即可
+    connectionFactory.setUsername("jamie");
+    connectionFactory.setPassword("123456");
+    connectionFactory.setVirtualHost("/simple");
+    return connectionFactory.newConnection();
   }
-
 }
