@@ -1,6 +1,6 @@
 package com.makesailing.neo.business.service;
 
-import com.makesailing.neo.domain.UserEntity;
+import com.makesailing.neo.domain.User;
 
 /**
  * # 用户服务
@@ -14,8 +14,8 @@ public interface UserService {
 
 	/**
 	 * 用户注册
-	 * @param userEntity
+	 * @param user
 	 * @return
 	 */
-	Long userRegister(UserEntity userEntity);
+	Long userRegister(User user);
 }
