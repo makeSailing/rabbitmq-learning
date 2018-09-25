@@ -7,77 +7,46 @@
        http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
 
   <!--配置 connection-factory, 指定连接 rabbitmq server 参数-->
-  <!--<rabbit:connection-factory id="connectionFactory" host="${rabbit.host}" port="${rabbit.port}"-->
-    <!--username="${rabbit.username}" password="${rabbit.password}" virtual-host="${rabbit.vhost}"-->
-    <!--publisher-confirms="true"/>-->
+  <rabbit:connection-factory id="connectionFactory" host="${rabbit.host}" port="${rabbit.port}"
+    username="${rabbit.username}" password="${rabbit.password}" virtual-host="${rabbit.vhost}"
+    channel-cache-size="${rabbit.channelCacheSize}" publisher-confirms="true"/>
 
- <!-- <bean id="rabbitConnectionFactory"
-    class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
-    <constructor-arg value="${rabbit.host}"/>
-    <property name="username" value="${rabbit.username}"/>
-    <property name="password" value="${rabbit.password}"/>
-    <property name="virtualHost" value="${rabbit.vhost}"/>
-    <property name="channelCacheSize" value="25"/>
-  </bean>
+  <!--<bean id="rabbitConnectionFactory"-->
+    <!--class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">-->
+    <!--<constructor-arg value="${rabbit.host}"/>-->
+    <!--<property name="username" value="${rabbit.username}"/>-->
+    <!--<property name="password" value="${rabbit.password}"/>-->
+    <!--<property name="virtualHost" value="${rabbit.vhost}"/>-->
+    <!--<property name="channelCacheSize" value="${rabbit.channelCacheSize}"/>-->
+  <!--</bean>-->
 
 
-  &lt;!&ndash; 通过指定下面的admin信息, 当前的producer中的 exchange 和 queue 会在 rabbitmq server 自动生成&ndash;&gt;
-  <rabbit:admin id="admin" connection-factory="rabbitConnectionFactory"/>
-  <rabbit:template id="rabbitTemplate" connection-factory="rabbitConnectionFactory" message-converter="jsonMessageConverter"/>
+  <!-- 通过指定下面的admin信息, 当前的producer中的 exchange 和 queue 会在 rabbitmq server 自动生成-->
+  <rabbit:admin id="admin" connection-factory="connectionFactory"/>
+  <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" /> <!--message-converter="jsonMessageConverter"-->
 
-  <bean id="jsonMessageConverter" class="org.springframework.amqp.support.converter.JsonMessageConverter"></bean>
+  <!--<bean id="jsonMessageConverter" class="org.springframework.amqp.support.converter.JsonMessageConverter"></bean>-->
 
-  &lt;!&ndash;定义queue 说明：durable:是否持久化 exclusive: 仅创建者可以使用的私有队列，断开后自动删除 auto_delete: 当所有消费客户端连接断开后，是否自动删除队列 &ndash;&gt;
+  <!--定义queue 说明：durable:是否持久化 exclusive: 仅创建者可以使用的私有队列，断开后自动删除 auto_delete: 当所有消费客户端连接断开后，是否自动删除队列 -->
   <rabbit:queue name="register.account" durable="true" auto-delete="false" exclusive="false"/>
-
-  &lt;!&ndash;定义 direct exchange 绑定 queue&ndash;&gt;
-  <rabbit:direct-exchange name="register.direct.exchange" durable="true" auto-delete="false">
-    <rabbit:bindings>
-      <rabbit:binding queue="register.account" key="register.user"></rabbit:binding>
-    </rabbit:bindings>
-  </rabbit:direct-exchange>
-
-
-  &lt;!&ndash;定义消费者&ndash;&gt;
-
-  <bean id="createAccountConsumer" class="com.makesailing.neo.queue.service.CreateAccountConsumer"/>
-
-  <rabbit:listener-container connection-factory="rabbitConnectionFactory">
-    &lt;!&ndash;queue listener 观察 监听模式 ,当有消息到达时会监听通知监听所在对应队列上监听对象&ndash;&gt;
-    <rabbit:listener queues="register.account" ref="createAccountConsumer"/>
-  </rabbit:listener-container>-->
-
-
-  <!--配置connection-factory，指定连接rabbit server参数 -->
-  <rabbit:connection-factory id="connectionFactory"
-    host="${rabbit.host}"
-    port="${rabbit.port}"
-    username="${rabbit.username}"
-    password="${rabbit.password}"
-    virtual-host="${rabbit.vhost}"/>
-
-  <!--定义rabbit template用于数据的接收和发送 -->
-  <rabbit:template id="amqpTemplate"  connection-factory="connectionFactory" exchange="exchangeTest"/>
-
-  <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->
-  <rabbit:admin connection-factory="connectionFactory" />
-
-  <!--定义queue -->
+  <!--&lt;!&ndash;定义queue &ndash;&gt;-->
   <rabbit:queue name="queueTest" durable="true" auto-delete="false" exclusive="false" />
 
-  <!-- 定义direct exchange，绑定queueTest -->
-  <rabbit:direct-exchange name="exchangeTest" durable="true" auto-delete="false">
+  <!--定义 direct exchange 绑定 queue-->
+  <rabbit:direct-exchange name="${user.register.exchange}" durable="true" auto-delete="false">
     <rabbit:bindings>
-      <rabbit:binding queue="queueTest" key="queueTestKey"></rabbit:binding>
+      <rabbit:binding queue="register.account" key="${user.register.routingkey}"></rabbit:binding>
     </rabbit:bindings>
   </rabbit:direct-exchange>
 
-  <!-- 消息接收者 -->
+
+  <!--定义消费者-->
+
   <bean id="createAccountConsumer" class="com.makesailing.neo.queue.service.CreateAccountConsumer"/>
 
-  <!-- queue litener  自动监听队列，当有消息到达时会通知监听在对应的队列上的监听对象-->
   <rabbit:listener-container connection-factory="connectionFactory">
-    <rabbit:listener queues="queueTest" ref="createAccountConsumer"/>
+    <!--queue listener 观察 监听模式 ,当有消息到达时会监听通知监听所在对应队列上监听对象-->
+    <rabbit:listener queues="register.account" ref="createAccountConsumer"/>
   </rabbit:listener-container>
 
 </beans>

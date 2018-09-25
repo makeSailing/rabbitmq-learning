@@ -17,5 +17,5 @@ public interface UserService {
 	 * @param user
 	 * @return
 	 */
-	Long userRegister(User user);
+	Long saveUser(User user);
 }

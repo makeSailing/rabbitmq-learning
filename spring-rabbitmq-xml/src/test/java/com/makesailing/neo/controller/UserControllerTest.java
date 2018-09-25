@@ -28,7 +28,7 @@ public class UserControllerTest extends BaseControllerTest {
 	@Test
 	public void testUserRegister() throws Exception {
 		User user = new User();
-		user.setEmail("12345678@qq.com");
+		user.setEmail("1234@qq.com");
 		user.setUsername("jack");
 		user.setPassword("123456");
 		user.setRole("root");

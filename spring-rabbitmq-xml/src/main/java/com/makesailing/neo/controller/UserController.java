@@ -23,8 +23,8 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping(Urls.User.SAVE_USER)
-	public String userRegister(@RequestBody User user) {
-		Long userId = userService.userRegister(user);
+	public String saveUser(@RequestBody User user) {
+		Long userId = userService.saveUser(user);
 		user.setId(userId);
 		return JSON.toJSONString(user);
 	}
