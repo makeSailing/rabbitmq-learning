@@ -19,6 +19,8 @@
 
   <!--<bean id="jsonMessageConverter" class="org.springframework.amqp.support.converter.JsonMessageConverter"></bean>-->
 
+  <!-- ###############################  直连交换机 ################################################### -->
+
   <!--定义queue 说明：durable:是否持久化 exclusive: 仅创建者可以使用的私有队列，断开后自动删除 auto_delete: 当所有消费客户端连接断开后，是否自动删除队列 -->
   <rabbit:queue name="register.account" durable="true" auto-delete="false" exclusive="false"/>
 
@@ -38,15 +40,32 @@
     <rabbit:listener queues="register.account" ref="createAccountConsumer"/>
   </rabbit:listener-container>
 
-  <!-- ################################ ################################################## -->
+  <!-- ################################ 扇形交换机 ################################################## -->
 
-  <!--扇形交换机,把能接收到的消息全部发送给绑定在自己身上的队列,在路由转发的时候忽略Routing Key-->
-  <!--<rabbit:fanout-exchange name="user.fanout.exchange" durable="true" auto-delete="false">-->
-    <!--<rabbit:bindings>-->
-      <!--<rabbit:binding ></rabbit:binding>-->
-    <!--</rabbit:bindings>-->
-  <!--</rabbit:fanout-exchange>-->
+  <!--扇形交换机,把能接收到的消息全部发送给绑定在自己身上的队列,在路由转发的时候忽略Routing Key ,
+  因为广播不需要思考,所以扇形交换机处理消息的速度也是所有交换机类型里最快的-->
 
+  <!--定义quque-->
+  <rabbit:queue name="test.queue.fanout.mail" durable="true" auto-delete="false" exclusive="false"/>
+  <rabbit:queue name="test.queue.fanout.sms" durable="true" auto-delete="false" exclusive="false"/>
+
+  <!--定义 fanout 交换机,并与queue进行绑定-->
+  <rabbit:fanout-exchange name="${test.fanout.exchange}" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="test.queue.fanout.mail" ></rabbit:binding>
+      <rabbit:binding queue="test.queue.fanout.sms" ></rabbit:binding>
+    </rabbit:bindings>
+  </rabbit:fanout-exchange>
+
+  <!--定义其消费者-->
+  <bean id="consumerSms" class="com.makesailing.neo.queue.service.FanoutConsumerSms"/>
+  <bean id="consumerMail" class="com.makesailing.neo.queue.service.FanoutConsumerMail"/>
+
+
+  <rabbit:listener-container connection-factory="connectionFactory">
+    <rabbit:listener queues="test.queue.fanout.sms" ref="consumerSms"/>
+    <rabbit:listener queues="test.queue.fanout.mail" ref="consumerMail"/>
+  </rabbit:listener-container>
 
 
   <!-- ###############################  主题交换机 ################################################### -->
@@ -55,7 +74,7 @@
   <rabbit:queue name="test.queue.topic.2" durable="true" auto-delete="false" exclusive="false"/>
 
   <!--主题交换机-->
-  <rabbit:topic-exchange name="test.topic.exchange" durable="true" auto-delete="false">
+  <rabbit:topic-exchange name="${test.topic.exchange}" durable="true" auto-delete="false">
     <rabbit:bindings>
       <rabbit:binding queue="test.queue.topic.1"  pattern="*.orange.*" ></rabbit:binding>
       <rabbit:binding queue="test.queue.topic.2"  pattern="*.*.rabbit" ></rabbit:binding>
@@ -69,9 +88,6 @@
 
   <rabbit:listener-container connection-factory="connectionFactory">
     <rabbit:listener queues="test.queue.topic.1" ref="consumer1"/>
-  </rabbit:listener-container>
-
-  <rabbit:listener-container connection-factory="connectionFactory">
     <rabbit:listener queues="test.queue.topic.2" ref="consumer2"/>
   </rabbit:listener-container>
 

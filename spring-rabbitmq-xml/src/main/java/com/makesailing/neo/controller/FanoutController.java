@@ -12,24 +12,27 @@ import org.springframework.web.bind.annotation.RestController;
  * #
  *
  * @author <a href="mailto:jamie.li@wolaidai.com">jamie.li</a>
- * @date 2018/9/25 17:30
+ * @date 2018/9/26 10:16
  */
 @RestController
-@RequestMapping("/topic")
-public class TopicController {
+@RequestMapping("/fanout")
+public class FanoutController {
 
 	@Autowired
 	private AmqpTemplate amqpTemplate;
 
-	@Value("${test.topic.exchange}")
+	@Value("${test.fanout.exchange}")
 	private String exchange;
 
-	@GetMapping("/sendMsg")
-	public String sendAmqbMsg(@RequestParam(value = "msg", defaultValue = "Hello , quick.orange.rabbit") String msg) {
-		amqpTemplate.convertAndSend(exchange, "quick.orange.rabbit", msg);
+	@GetMapping("/register")
+	public String userRegister(
+		@RequestParam(value = "user", defaultValue = "Hello , user register success") String msg) {
+		// 第二个参数就是 routingKey 路由键,使用 "" 默认routingKey ,但是不能为null
+		amqpTemplate.convertAndSend(exchange, "", msg);
+		// fanout 扇形交换机会忽然其 routingKey,所以其指定routingKey也不生效
+		//amqpTemplate.convertAndSend("test.fanout.exchange", "quick.orange.rabbit", msg);
 		return "success";
 	}
-
 }
 
 
