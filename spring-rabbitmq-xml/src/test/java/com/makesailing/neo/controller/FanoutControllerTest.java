@@ -13,7 +13,7 @@ import org.junit.After;
 /** 
 * FanoutController Tester. 
 * 
-* @author <a href="mailto:jamie.li@wolaidai.com">jamie.li</a> 
+* @author jamie
 * @since <pre>09/26/2018</pre> 
 */ 
 public class FanoutControllerTest extends BaseControllerTest {
