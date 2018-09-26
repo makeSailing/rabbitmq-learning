@@ -15,9 +15,9 @@
   <!-- 通过指定下面的admin信息, 当前的producer中的 exchange 和 queue 会在 rabbitmq server 自动生成-->
   <rabbit:admin id="admin" connection-factory="connectionFactory"/>
   <rabbit:template id="rabbitTemplate"
-    connection-factory="connectionFactory"/> <!--message-converter="jsonMessageConverter"-->
+    connection-factory="connectionFactory" message-converter="fastJsonMessageConverter"/>
 
-  <!--<bean id="jsonMessageConverter" class="org.springframework.amqp.support.converter.JsonMessageConverter"></bean>-->
+  <bean id="fastJsonMessageConverter" class="com.makesailing.neo.config.FastJsonMessageConverter"></bean>
 
   <!-- ###############################  直连交换机 ################################################### -->
 
