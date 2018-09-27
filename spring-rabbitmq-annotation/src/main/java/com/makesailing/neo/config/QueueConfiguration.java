@@ -4,6 +4,8 @@ import com.makesailing.neo.constant.ExchangeConstant;
 import com.makesailing.neo.constant.QueueConstant;
 import com.makesailing.neo.constant.RoutingKeyConstant;
 import com.makesailing.neo.queue.consumer.DirectMessageConsumer;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -42,6 +44,35 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 			.with(RoutingKeyConstant.DIRECT_ROUTING_KEY);
 		return binding;
 	}
+
+	// ########################   direct queue 死信队列 配置  ####################################
+
+	@Bean
+	public Queue repeatTradeQueue() {
+		Queue queue = new Queue(QueueConstant.DIRECT_REPEAT_TRADE_QUEUE_NAME,true,false,false);
+		return queue;
+	}
+
+	@Bean
+	public Binding  drepeatTradeBinding() {
+		return BindingBuilder.bind(repeatTradeQueue()).to(directExchange()).with(RoutingKeyConstant.DIRECT_REPEAT_TRADE_ROUTING_KEy);
+	}
+
+	@Bean
+	public Queue deadLetterQueue() {
+		Map<String, Object> arguments = new HashMap<>();
+		arguments.put("x-dead-letter-exchange", ExchangeConstant.DIRECT_EXCHAGE);
+		arguments.put("x-dead-letter-routing-key", RoutingKeyConstant.DIRECT_DEAD_LETTER_ROUTING_KEY);
+		Queue queue = new Queue(QueueConstant.DIRECT_DEAD_LETTER_QUEUE_NAME,true,false,false,arguments);
+		System.out.println("arguments :" + queue.getArguments());
+		return queue;
+	}
+
+	@Bean
+	public Binding  deadLetterBinding() {
+		return BindingBuilder.bind(deadLetterQueue()).to(directExchange()).with(RoutingKeyConstant.DIRECT_DEAD_LETTER_ROUTING_KEY);
+	}
+
 
 	@Autowired
 	private DirectMessageConsumer directMessageConsumer;

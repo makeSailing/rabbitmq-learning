@@ -72,5 +72,21 @@ public class MessageQueueControllerTest extends BaseControllerTest {
 	}
 
 
+	/**
+	 *
+	 * Method: sendDeadLetterMsg(@RequestParam(value = "msg", defaultValue = "Hello , quick.orange.rabbit") String msg)
+	 *
+	 */
+	@Test
+	public void testSendDeadLetterMsg() throws Exception {
+		String response = mockMvc.perform(get(ROOT + "/direct/sendDeadLetterMsg").param("msg", "测试延迟发送消息"))
+			.andExpect(status().isOk())
+			.andDo(print()).andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(response);
+		System.out.println(response);
+	}
+
+
+
 
 }
