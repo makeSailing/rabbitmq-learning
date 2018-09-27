@@ -8,7 +8,7 @@ package com.makesailing.neo.constant;
  */
 public class QueueConstant {
 
-	public static final String TEST_DIRECT_QUEUE= "test.direct.queue";
+	public static final String TEST_DIRECT_QUEUE = "test.direct.queue";
 }
 
 

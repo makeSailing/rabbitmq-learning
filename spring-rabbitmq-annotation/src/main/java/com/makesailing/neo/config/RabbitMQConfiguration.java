@@ -2,7 +2,9 @@ package com.makesailing.neo.config;
 
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,15 +32,17 @@ public class RabbitMQConfiguration {
 	@Value("${rabbitmq.password}")
 	private String password;
 
-	@Value("${rabbitmq.vhost}")
+	@Value("${rabbitmq.virtualHost}")
 	private String virtualHost;
+
+	@Value("${rabbitmq.publisher.confirms}")
+	private Boolean publisherConfirms;
 
 	@Value("${rabbitmq.channelCacheSize}")
 	private Integer channelCacheSize;
 
 	/**
 	 * 连接信息
-	 * @return
 	 */
 	@Bean
 	public ConnectionFactory connectionFactory() {
@@ -48,21 +52,34 @@ public class RabbitMQConfiguration {
 		connectionFactory.setUsername(username);
 		connectionFactory.setPassword(password);
 		connectionFactory.setVirtualHost(virtualHost);
-		connectionFactory.setConnectionCacheSize(channelCacheSize);
+		connectionFactory.setPublisherConfirms(publisherConfirms);
+		//connectionFactory.setConnectionCacheSize(channelCacheSize);
 		return connectionFactory;
 	}
 
+	@Bean
+	public RabbitAdmin rabbitAdmin() {
+		RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory());
+		return rabbitAdmin;
+	}
+
 	/**
-	 *  rabbitmq 模版
-	 * @return
+	 * rabbitmq 模版
 	 */
 	@Bean
 	public RabbitTemplate rabbitTemplate() {
 		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
 		// 默认的采用 jackson ,因为fastjson 强大,这里采用 fastjson进行转换
-		rabbitTemplate.setMessageConverter(new FastJsonMessageConverter());
+		rabbitTemplate.setMessageConverter(messageConverter());
 		return rabbitTemplate;
 	}
+
+	@Bean
+	public MessageConverter messageConverter() {
+		return new FastJsonMessageConverter();
+	}
+
+
 }
 
 
