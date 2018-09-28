@@ -27,6 +27,11 @@ public class RoutingKeyConstant {
 
 	public static final String MAIL_QUEUE_ROUTING_KEY = "test.mail.queue.routing.key";
 
+	/**
+	 * 广播队列 routingkey
+	 */
+	public static final String FANOUT_ROUTING_KEY = "test.fanout.routing.key";
+
 
 
 

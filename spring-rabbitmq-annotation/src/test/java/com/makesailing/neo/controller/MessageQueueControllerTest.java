@@ -44,7 +44,7 @@ public class MessageQueueControllerTest extends BaseControllerTest {
 	 */
 	@Test
 	public void testSendMsg() throws Exception {
-		String response = mockMvc.perform(get(DIRECT_EXCHANGE + "/sendMsg").param("msg", "Hello Worlds RabbitMQ"))
+		String response = mockMvc.perform(get(DIRECT_EXCHANGE + "/sendMsg").param("msg", "Hello Direct RabbitMQ"))
 			.andExpect(status().isOk())
 			.andDo(print()).andReturn().getResponse().getContentAsString();
 		Assert.assertNotNull(response);
@@ -86,6 +86,20 @@ public class MessageQueueControllerTest extends BaseControllerTest {
 	@Test
 	public void testSendDeadLetterMsg() throws Exception {
 		String response = mockMvc.perform(get(DIRECT_EXCHANGE + "/direct/sendDeadLetterMsg").param("msg", "测试延迟发送消息"))
+			.andExpect(status().isOk())
+			.andDo(print()).andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(response);
+		System.out.println(response);
+	}
+
+	/**
+	 *
+	 * Method: sendFanoutMsg(@RequestParam(value = "msg", defaultValue = "Hello , quick.orange.rabbit") String msg)
+	 *
+	 */
+	@Test
+	public void testSendFanoutMsg() throws Exception {
+		String response = mockMvc.perform(get(FANOUT_EXCHANGE + "/sendMsg").param("msg", "Hello Fanout RabbitMQ"))
 			.andExpect(status().isOk())
 			.andDo(print()).andReturn().getResponse().getContentAsString();
 		Assert.assertNotNull(response);

@@ -11,16 +11,19 @@ import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.stereotype.Component;
 
 /**
+ * #
+ *
  * @author jamie.li
+ * @date 2018/9/28 18:02
  */
 @Component
-public class DirectMessageConsumer implements ChannelAwareMessageListener {
+public class FanoutMessageConsumer implements ChannelAwareMessageListener {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DirectMessageConsumer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FanoutMessageConsumer.class);
 
 	@Override
-	public void onMessage(Message message,Channel channel) {
-		LOGGER.info("-----接收 直连交换机 信息-----");
+	public void onMessage(Message message, Channel channel) throws Exception {
+		LOGGER.info("-----接收 广播交换机 信息-----");
 		if (Objects.isNull(message) || ArrayUtils.isEmpty(message.getBody())) {
 			LOGGER.warn("receive fanout message info is empty");
 			return;
@@ -36,3 +39,5 @@ public class DirectMessageConsumer implements ChannelAwareMessageListener {
 		}
 	}
 }
+
+

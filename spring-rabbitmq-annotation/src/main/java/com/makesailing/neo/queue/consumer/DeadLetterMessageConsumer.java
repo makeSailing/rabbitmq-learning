@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 /**
  * # 死信队列消费者
  *
- * @author <a href="mailto:jamie.li@wolaidai.com">jamie.li</a>
+ * @author jamie.li
  * @date 2018/9/27 17:44
  */
 @Component

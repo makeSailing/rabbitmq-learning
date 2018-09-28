@@ -58,6 +58,23 @@ public class MessageQueueController {
 		messageQueueService.sendDeadLetterMsg(QueueConstant.DIRECT_DEAD_LETTER_QUEUE_NAME, msg, 6000);
 		return "success";
 	}
+
+
+	@GetMapping(FANOUT_EXCHANGE + "/sendMsg")
+	public String sendFanoutMsg(@RequestParam(value = "msg", defaultValue = "Hello , quick.orange.rabbit") String msg) {
+		String[] routingKeys = {RoutingKeyConstant.DIRECT_ROUTING_KEY,RoutingKeyConstant.FANOUT_ROUTING_KEY, RoutingKeyConstant.DIRECT_DEAD_MAIL_QUEUE_FAIL,
+			RoutingKeyConstant.MAIL_QUEUE_ROUTING_KEY};
+		for (int i = 0; i < 30; i++) {
+			messageQueueService.send(ExchangeConstant.FANOUT_EXCHAGE, routingKeys[i % 3], msg + " >>> " + i);
+		}
+		// 休眠 3s,方便查看日志,实际情况不用
+		try {
+			Thread.sleep(1000 * 3);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return "success";
+	}
 }
 
 

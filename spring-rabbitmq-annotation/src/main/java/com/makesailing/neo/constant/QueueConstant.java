@@ -14,6 +14,11 @@ public class QueueConstant {
 	public static final String TEST_DIRECT_QUEUE = "test.direct.queue";
 
 	/**
+	 * fanout queue
+	 */
+	public static final String TEST_FANOUT_QUEUE = "test.fanout.queue";
+
+	/**
 	 * DLX QUEUE
 	 */
 	public static final String DIRECT_DEAD_LETTER_QUEUE_NAME = "kshop.dead.letter.queue";
