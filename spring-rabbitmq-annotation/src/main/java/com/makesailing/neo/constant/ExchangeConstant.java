@@ -23,6 +23,20 @@ public class ExchangeConstant {
 	 * 主题交换机
 	 */
 	public static final String TOPIC_EXCHAGE = "test.topic.exchange";
+
+	/**
+	 * 死信队列交换机
+	 */
+	public static final String DEAD_LETTER_EXCHANGE = "test.dead.letter.exchange";
+	/**
+	 * 邮件交换机
+	 */
+	public static final String MAIL_EXCHANGE = "test.mail.exchange";
+
+
+
+
+
 }
 
 

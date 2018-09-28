@@ -3,6 +3,7 @@ package com.makesailing.neo.config;
 import com.makesailing.neo.constant.ExchangeConstant;
 import com.makesailing.neo.constant.QueueConstant;
 import com.makesailing.neo.constant.RoutingKeyConstant;
+import com.makesailing.neo.queue.consumer.DeadLetterMessageConsumer;
 import com.makesailing.neo.queue.consumer.DirectMessageConsumer;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +46,21 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 		return binding;
 	}
 
+
+	@Autowired
+	private DirectMessageConsumer directMessageConsumer;
+
+	@Bean(name = "directMessageListenerContainer")
+	public SimpleMessageListenerContainer directMessageListenerContainer() {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+		container.setConnectionFactory(connectionFactory());
+		container.setQueues(directQueue());
+		container.setMessageListener(directMessageConsumer);
+		// 如果设置了 MANUAL(手动),消费者那边需要手动答复,不能rabbit server 不会删除这个已经消费掉的消息 ,默认值是 AUTO
+		//container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+		return container;
+	}
+
 	// ########################   direct queue 死信队列 配置  ####################################
 
 	@Bean
@@ -55,7 +71,7 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 
 	@Bean
 	public Binding  drepeatTradeBinding() {
-		return BindingBuilder.bind(repeatTradeQueue()).to(directExchange()).with(RoutingKeyConstant.DIRECT_REPEAT_TRADE_ROUTING_KEy);
+		return BindingBuilder.bind(repeatTradeQueue()).to(directExchange()).with(RoutingKeyConstant.DIRECT_REPEAT_TRADE_ROUTING_KEY);
 	}
 
 	@Bean
@@ -74,20 +90,59 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 	}
 
 
-	@Autowired
-	private DirectMessageConsumer directMessageConsumer;
-
+	// ########################   direct queue 死信队列 配置  ####################################
+	// 创建业务队列
 	@Bean
-	public SimpleMessageListenerContainer listenerContainer() {
-		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-		container.setConnectionFactory(connectionFactory());
-		container.setQueues(directQueue());
-		container.setMessageListener(directMessageConsumer);
-		// 如果设置了 MANUAL(手动),消费者那边需要手动答复,不能rabbit server 不会删除这个已经消费掉的消息 ,默认值是 AUTO
-		//container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
-		return container;
+	public Queue mailQueue() {
+		Map<String, Object> arguments = new HashMap<>();
+		arguments.put("x-dead-letter-exchange", ExchangeConstant.DEAD_LETTER_EXCHANGE); //设置死信交换机
+		arguments.put("x-dead-letter-routing-key", RoutingKeyConstant.DIRECT_DEAD_MAIL_QUEUE_FAIL) ;// 设置死信 routingKey
+		Queue queue = new Queue(QueueConstant.TEST_MAIL_QUEUE, true, false, false, arguments);
+		return queue;
+	}
+	// 业务交换机
+	@Bean
+	public DirectExchange mailExchange() {
+		DirectExchange directExchange = new DirectExchange(ExchangeConstant.MAIL_EXCHANGE, true, false);
+		return directExchange;
+	}
+	// 绑定业务队列和交换机,并绑定routingKey
+	@Bean
+	public Binding mailBinding() {
+		Binding binding = BindingBuilder.bind(mailQueue()).to(mailExchange())
+			.with(RoutingKeyConstant.MAIL_QUEUE_ROUTING_KEY);
+		return binding;
 	}
 
+	@Bean
+	public DirectExchange deadExchange() {
+		return new DirectExchange("dead_letter_exchange", true, false);
+	}
+
+	@Bean
+	public Queue deadQueue(){
+		Queue queue = new Queue("dead", true);
+		return queue;
+	}
+
+	@Bean
+	public Binding deadBinding() {
+		return BindingBuilder.bind(deadQueue()).to(deadExchange())
+			.with("mail_queue_fail");
+	}
+
+
+	@Autowired
+	private DeadLetterMessageConsumer deadLetterMessageConsumer;
+
+	@Bean(name = "deadMessageListenerContainer")
+	public SimpleMessageListenerContainer deadMessageListenerContainer() {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+		container.setConnectionFactory(connectionFactory());
+		container.setQueues(deadLetterQueue());
+		container.setMessageListener(deadLetterMessageConsumer);
+		return container;
+	}
 }
 
 

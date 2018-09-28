@@ -33,12 +33,18 @@ public class MessageQueueControllerTest extends BaseControllerTest {
 
 	public static final String ROOT = "/rabbit";
 
+	public static final String DIRECT_EXCHANGE = ROOT+ "/direct";
+
+	public static final String FANOUT_EXCHANGE = ROOT+ "/fanout";
+
+	public static final String TOPIC_EXCHANGE = ROOT+ "/topic";
+
 	/**
 	 * Method: sendMsg(@RequestParam(value = "msg", defaultValue = "Hello , quick.orange.rabbit") String msg)
 	 */
 	@Test
 	public void testSendMsg() throws Exception {
-		String response = mockMvc.perform(get(ROOT + "/direct/sendMsg").param("msg", "Hello Worlds RabbitMQ"))
+		String response = mockMvc.perform(get(DIRECT_EXCHANGE + "/sendMsg").param("msg", "Hello Worlds RabbitMQ"))
 			.andExpect(status().isOk())
 			.andDo(print()).andReturn().getResponse().getContentAsString();
 		Assert.assertNotNull(response);
@@ -64,7 +70,7 @@ public class MessageQueueControllerTest extends BaseControllerTest {
 
 		String userInfo = JSON.toJSONString(user);
 
-		String response = mockMvc.perform(post(ROOT + "/direct/sendUserMsg").contentType(MediaType.APPLICATION_JSON_UTF8).content(userInfo))
+		String response = mockMvc.perform(post(DIRECT_EXCHANGE + "/direct/sendUserMsg").contentType(MediaType.APPLICATION_JSON_UTF8).content(userInfo))
 			.andExpect(status().isOk())
 			.andDo(print()).andReturn().getResponse().getContentAsString();
 		Assert.assertNotNull(response);
@@ -79,7 +85,7 @@ public class MessageQueueControllerTest extends BaseControllerTest {
 	 */
 	@Test
 	public void testSendDeadLetterMsg() throws Exception {
-		String response = mockMvc.perform(get(ROOT + "/direct/sendDeadLetterMsg").param("msg", "测试延迟发送消息"))
+		String response = mockMvc.perform(get(DIRECT_EXCHANGE + "/direct/sendDeadLetterMsg").param("msg", "测试延迟发送消息"))
 			.andExpect(status().isOk())
 			.andDo(print()).andReturn().getResponse().getContentAsString();
 		Assert.assertNotNull(response);

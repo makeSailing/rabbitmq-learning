@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 
- * @author victor
+ * @author jamie.li
  * @desc rabbit 死信消息载体
  */
 public class DLXMessage implements Serializable {

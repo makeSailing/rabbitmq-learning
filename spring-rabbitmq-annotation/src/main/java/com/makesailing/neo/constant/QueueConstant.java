@@ -22,6 +22,10 @@ public class QueueConstant {
 	 * DLX repeat QUEUE 死信转发队列
 	 */
 	public static final String DIRECT_REPEAT_TRADE_QUEUE_NAME = "kshop.repeat.trade.queue";
+	/**
+	 * 邮件队列queue
+	 */
+	public static final String TEST_MAIL_QUEUE = "test.mail.queue";
 }
 
 

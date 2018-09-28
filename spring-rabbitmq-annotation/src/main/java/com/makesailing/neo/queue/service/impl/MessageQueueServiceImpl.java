@@ -3,8 +3,9 @@ package com.makesailing.neo.queue.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.makesailing.neo.constant.DLXMessage;
 import com.makesailing.neo.constant.ExchangeConstant;
-import com.makesailing.neo.constant.QueueConstant;
+import com.makesailing.neo.constant.RoutingKeyConstant;
 import com.makesailing.neo.queue.service.MessageQueueService;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.MessagePostProcessor;
@@ -34,7 +35,13 @@ public class MessageQueueServiceImpl implements MessageQueueService {
 		//rabbitTemplate.setConfirmCallback(this);
 		//构建回调id为uuid
 		//CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
-		rabbitTemplate.convertAndSend(exchange, routingKey, message);
+		//String[] routingKeys = {routingKey, RoutingKeyConstant.DIRECT_DEAD_MAIL_QUEUE_FAIL,
+		//	RoutingKeyConstant.MAIL_QUEUE_ROUTING_KEY};
+		//for (int i = 0; i < 10; i++) {
+		//	rabbitTemplate.convertAndSend(exchange, routingKeys[i % 3], message + " >>> " + i);
+		//}
+			rabbitTemplate.convertAndSend(exchange, routingKey, message);
+
 	}
 
 	@Override
@@ -45,9 +52,13 @@ public class MessageQueueServiceImpl implements MessageQueueService {
 			messagePostProcessor.getMessageProperties().setExpiration(times + "");
 			return messagePostProcessor;
 		};
+		//设置回调为当前类对象
+		rabbitTemplate.setConfirmCallback(this);
+		//构建回调id为uuid
+		CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
 		dlxMessage.setExchange(ExchangeConstant.DIRECT_EXCHAGE);
-		rabbitTemplate.convertAndSend(ExchangeConstant.DIRECT_EXCHAGE, QueueConstant.DIRECT_DEAD_LETTER_QUEUE_NAME,
-			JSON.toJSONString(dlxMessage), processor);
+		rabbitTemplate.convertAndSend(ExchangeConstant.DIRECT_EXCHAGE, RoutingKeyConstant.DIRECT_DEAD_LETTER_ROUTING_KEY,
+			JSON.toJSONString(dlxMessage), processor,correlationId);
 
 	}
 

@@ -42,7 +42,7 @@ public class DeadLetterMessageConsumer implements ChannelAwareMessageListener {
 			LOGGER.info("receive DLXMessage from the register, the messageBody  [{}]" , msg);
 			DLXMessage dlxMessage = JSONObject.parseObject(msg, DLXMessage.class);
 
-			messageQueueService.send(dlxMessage.getExchange(), RoutingKeyConstant.DIRECT_REPEAT_TRADE_ROUTING_KEy,
+			messageQueueService.send(dlxMessage.getExchange(), RoutingKeyConstant.DIRECT_DEAD_LETTER_ROUTING_KEY,
 				dlxMessage.getContent());
 			// TODO 省略其业务逻辑
 		} catch (UnsupportedEncodingException e) {

@@ -17,7 +17,19 @@ public class RoutingKeyConstant {
 	/**
 	 * 死信队列后重发 routingKey
 	 */
-	public static final String DIRECT_REPEAT_TRADE_ROUTING_KEy= "test.direct.repeat.trade.routing.key";
+	public static final String DIRECT_REPEAT_TRADE_ROUTING_KEY = "test.direct.repeat.trade.routing.key";
+
+	/**
+	 * 邮件死信队列 routingKey
+	 */
+	public static final String DIRECT_DEAD_MAIL_QUEUE_FAIL = "test.direct.dead.mail.queue.fail";
+
+
+	public static final String MAIL_QUEUE_ROUTING_KEY = "test.mail.queue.routing.key";
+
+
+
+
 }
 
 
