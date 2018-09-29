@@ -32,6 +32,16 @@ public class RoutingKeyConstant {
 	 */
 	public static final String FANOUT_ROUTING_KEY = "test.fanout.routing.key";
 
+	/**
+	 * 主题队列
+	 */
+	public static final String TOPIC_ROUTING_KEY = "topic.orange.rabbit";
+
+	public static final String TOPIC_ORANGE_ROUTING_KEY = "*.orange.*";
+
+	public static final String TOPIC_RABBIT_ROUTING_KEY = "*.*.rabbit";
+	public static final String TOPIC_LAZY_ROUTING_KEY = "lazy.#";
+
 
 
 

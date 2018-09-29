@@ -106,6 +106,20 @@ public class MessageQueueControllerTest extends BaseControllerTest {
 		System.out.println(response);
 	}
 
+	/**
+	 *
+	 * Method: sendTopicMsg(@RequestParam(value = "msg", defaultValue = "Hello , quick.orange.rabbit") String msg)
+	 *
+	 */
+	@Test
+	public void testSendTopicMsg() throws Exception {
+		String response = mockMvc.perform(get(TOPIC_EXCHANGE + "/sendMsg").param("msg", "Hello Topic RabbitMQ"))
+			.andExpect(status().isOk())
+			.andDo(print()).andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(response);
+		System.out.println(response);
+	}
+
 
 
 

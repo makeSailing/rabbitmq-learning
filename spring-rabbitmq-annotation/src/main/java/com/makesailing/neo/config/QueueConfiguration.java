@@ -6,6 +6,7 @@ import com.makesailing.neo.constant.RoutingKeyConstant;
 import com.makesailing.neo.queue.consumer.DeadLetterMessageConsumer;
 import com.makesailing.neo.queue.consumer.DirectMessageConsumer;
 import com.makesailing.neo.queue.consumer.FanoutMessageConsumer;
+import com.makesailing.neo.queue.consumer.TopicMessageConsumer;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.amqp.core.Binding;
@@ -13,6 +14,7 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -100,6 +102,49 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 		//container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
 		return container;
 	}
+
+	// ########################   topic queue 主题队列 配置  ####################################
+
+	@Bean
+	public TopicExchange topicExchange() {
+		TopicExchange topicExchange = new TopicExchange(ExchangeConstant.TOPIC_EXCHAGE, true, false);
+		return topicExchange;
+	}
+
+	@Bean
+	public Queue topicQueue() {
+		Queue queue = new Queue(QueueConstant.TEST_TOPIC_QUEUE, true, false, false);
+		return queue;
+	}
+
+	@Bean
+	public Binding topicBinding() {
+		Binding binding = BindingBuilder.bind(topicQueue()).to(topicExchange())
+			.with(RoutingKeyConstant.TOPIC_LAZY_ROUTING_KEY);
+		return binding;
+	}
+
+	@Autowired
+	private TopicMessageConsumer topicMessageConsumer;
+
+	/**
+	 * 如果不指定 bean name,默认采用方法名
+	 * @return
+	 */
+	@Bean(name = "topicMessageListenerContainer")
+	public SimpleMessageListenerContainer topicMessageListenerContainer() {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+		container.setConnectionFactory(connectionFactory());
+		container.setQueues(topicQueue());
+		container.setMessageListener(topicMessageConsumer);
+		// 如果设置了 MANUAL(手动),消费者那边需要手动答复,不能rabbit server 不会删除这个已经消费掉的消息 ,默认值是 AUTO
+		//container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+		return container;
+	}
+
+
+
+
 
 	// ########################   direct queue 死信队列 配置  ####################################
 

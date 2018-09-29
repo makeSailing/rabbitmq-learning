@@ -75,6 +75,21 @@ public class MessageQueueController {
 		}
 		return "success";
 	}
+
+	@GetMapping(TOPIC_EXCHANGE + "/sendMsg")
+	public String sendTopicMsg(@RequestParam(value = "msg", defaultValue = "Hello , quick.orange.rabbit") String msg) {
+		String[] routingKeys = {RoutingKeyConstant.TOPIC_ROUTING_KEY,"lazy.topic.orange.rabbit","topic.hello.rabbit"};
+		for (int i = 0; i < 30; i++) {
+			messageQueueService.send(ExchangeConstant.TOPIC_EXCHAGE, routingKeys[i % 3], msg + " >>> " + i);
+		}
+		// 休眠 3s,方便查看日志,实际情况不用
+		try {
+			Thread.sleep(1000 * 3);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return "success";
+	}
 }
 
 

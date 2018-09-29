@@ -17,6 +17,10 @@ public class QueueConstant {
 	 * fanout queue
 	 */
 	public static final String TEST_FANOUT_QUEUE = "test.fanout.queue";
+	/**
+	 * topic queue
+	 */
+	public static final String TEST_TOPIC_QUEUE = "test.topic.queue";
 
 	/**
 	 * DLX QUEUE
