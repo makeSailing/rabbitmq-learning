@@ -22,13 +22,12 @@ public class DirectMessageConsumer implements ChannelAwareMessageListener {
 	public void onMessage(Message message,Channel channel) {
 		LOGGER.info("-----接收 直连交换机 信息-----");
 		if (Objects.isNull(message) || ArrayUtils.isEmpty(message.getBody())) {
-			LOGGER.warn("receive fanout message info is empty");
+			LOGGER.warn("receive direct message info is empty");
 			return;
 		}
-
 		try {
 			String msg = new String(message.getBody(), "UTF-8");
-			LOGGER.info("receive fanout message info is messageBody  [{}]" , msg);
+			LOGGER.info("receive direct message info is messageBody  [{}]" , msg);
 
 			// TODO 省略其业务逻辑
 		} catch (UnsupportedEncodingException e) {

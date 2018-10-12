@@ -53,7 +53,7 @@ public class RabbitMQConfiguration {
 		connectionFactory.setPassword(password);
 		connectionFactory.setVirtualHost(virtualHost);
 		connectionFactory.setPublisherConfirms(publisherConfirms);
-		//connectionFactory.setConnectionCacheSize(channelCacheSize);
+
 		return connectionFactory;
 	}
 

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @date 2018/9/27 14:14
  */
 @Component
-@RabbitListener(queues = QueueConstant.TEST_DIRECT_QUEUE)
+@RabbitListener(queues = QueueConstant.DIRECT_QUEUE)
 public class MessageQueueConsumer {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MessageQueueConsumer.class);

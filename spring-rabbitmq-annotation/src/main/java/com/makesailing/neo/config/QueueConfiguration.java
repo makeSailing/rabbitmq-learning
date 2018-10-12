@@ -3,19 +3,23 @@ package com.makesailing.neo.config;
 import com.makesailing.neo.constant.ExchangeConstant;
 import com.makesailing.neo.constant.QueueConstant;
 import com.makesailing.neo.constant.RoutingKeyConstant;
-import com.makesailing.neo.queue.consumer.DeadLetterMessageConsumer;
 import com.makesailing.neo.queue.consumer.DirectMessageConsumer;
 import com.makesailing.neo.queue.consumer.FanoutMessageConsumer;
+import com.makesailing.neo.queue.consumer.MessageHandler;
 import com.makesailing.neo.queue.consumer.TopicMessageConsumer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.HeadersExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +43,7 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 
 	@Bean
 	public Queue directQueue() {
-		Queue queue = new Queue(QueueConstant.TEST_DIRECT_QUEUE, true, false, false);
+		Queue queue = new Queue(QueueConstant.DIRECT_QUEUE, true, false, false);
 		return queue;
 	}
 
@@ -57,6 +61,9 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 	@Bean(name = "directMessageListenerContainer")
 	public SimpleMessageListenerContainer directMessageListenerContainer() {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+		//设置autoStartUp为false表示SimpleMessageListenerContainer没有启动 ,就不能进行消费.
+		// 也可以在Spring容器中进行启动  SimpleMessageListenerContainer
+		//container.setAutoStartup(false);
 		container.setConnectionFactory(connectionFactory());
 		container.setQueues(directQueue());
 		container.setMessageListener(directMessageConsumer);
@@ -64,6 +71,7 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 		//container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
 		return container;
 	}
+
 
 	// ########################   fanout queue 队列 配置  ####################################
 
@@ -75,7 +83,7 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 
 	@Bean
 	public Queue fanoutQueue() {
-		Queue queue = new Queue(QueueConstant.TEST_FANOUT_QUEUE, true, false, false);
+		Queue queue = new Queue(QueueConstant.FANOUT_QUEUE, true, false, false);
 		return queue;
 	}
 
@@ -113,7 +121,7 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 
 	@Bean
 	public Queue topicQueue() {
-		Queue queue = new Queue(QueueConstant.TEST_TOPIC_QUEUE, true, false, false);
+		Queue queue = new Queue(QueueConstant.TOPIC_QUEUE, true, false, false);
 		return queue;
 	}
 
@@ -143,12 +151,98 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 	}
 
 
+	// ########################   headers queue 头部队列 配置  ####################################
 
+	@Bean
+	public HeadersExchange headersExchange() {
+		HeadersExchange headersExchange = new HeadersExchange(ExchangeConstant.HEADERS_EXCHAGE, true, false);
+		return headersExchange;
+	}
+
+	@Bean
+	public Queue headerQueue() {
+		Queue queue = new Queue(QueueConstant.HEADERS_QUEUE, true, false, false);
+		return queue;
+	}
+	/*
+
+	public Binding headerBinding() {
+		//BindingBuilder.bind(headerQueue()).to(headersExchange()).where()
+	}
+	*/
+
+
+	// ########################   direct queue 一次性生成多个 配置  ####################################
+
+	@Bean
+	public List<Queue> queueList() {
+		List<Queue> queueList = new ArrayList<>();
+		queueList.add(new Queue("order", true, false, false));
+		queueList.add(new Queue("goods", true, false, false));
+		queueList.add(new Queue("count", true, false, false));
+		queueList.add(new Queue("logger.info", true, false, false));
+		queueList.add(new Queue("logger.warn", true, false, false));
+		queueList.add(new Queue("logger.error", true, false, false));
+		return queueList;
+	}
+
+	@Bean
+	public List<DirectExchange> directExchangeList() {
+		List<DirectExchange> exchangeList = new ArrayList<>();
+		exchangeList.add(new DirectExchange("test.order.direct.exchange", true, false));
+		exchangeList.add(new DirectExchange("test.goods.direct.exchange", true, false));
+		exchangeList.add(new DirectExchange("test.count.direct.exchange", true, false));
+		exchangeList.add(new DirectExchange("logger.info.direct.exchange", true, false));
+		exchangeList.add(new DirectExchange("logger.warn.direct.exchange", true, false));
+		exchangeList.add(new DirectExchange("logger.error.direct.exchange", true, false));
+		return exchangeList;
+	}
+
+	@Bean
+	public List<Binding> bindingList() {
+		List<Binding> bindingList = new ArrayList<>();
+		bindingList.add(BindingBuilder.bind(queueList().get(0)).to(directExchangeList().get(0))
+			.with("test.order.routing.key"));
+		bindingList.add(BindingBuilder.bind(queueList().get(3)).to(directExchangeList().get(3))
+			.with("logger.info.routing.key"));
+		bindingList.add(BindingBuilder.bind(queueList().get(4)).to(directExchangeList().get(4))
+			.with("logger.warn.routing.key"));
+		bindingList.add(BindingBuilder.bind(queueList().get(5)).to(directExchangeList().get(5))
+			.with("logger.error.routing.key"));
+		return bindingList;
+	}
+
+
+	/**
+	 * MessageListenerAdapter
+	 1.可以把一个没有实现MessageListener和ChannelAwareMessageListener接口的类适配成一个可以处理消息的处理器
+	 2.默认的方法名称为：handleMessage，可以通过setDefaultListenerMethod设置新的消息处理方法
+	 3.MessageListenerAdapter支持不同的队列交给不同的方法去执行。使用setQueueOrTagToMethodName方法设置，当根据queue名称没有找到匹配的方法的时候，就会交给默认的方法去处理。
+	 * @return
+	 */
+	@Bean
+	public SimpleMessageListenerContainer messageListenerContainer() {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+		container.setConnectionFactory(connectionFactory());
+		container.setQueueNames("order","logger.info", "logger.warn", "logger.error");
+
+		MessageListenerAdapter adapter = new MessageListenerAdapter(new MessageHandler());
+		// 设置处理器的消费消息的默认方法,如果没有设置,那么默认处理器的默认方式是handlerMessage方法
+		adapter.setDefaultListenerMethod("onMessage");
+		Map<String, String> queueOrTagToMethodName = new HashMap<>();
+		queueOrTagToMethodName.put("logger.info","onInfo");
+		queueOrTagToMethodName.put("logger.warn","onWarn");
+		queueOrTagToMethodName.put("logger.error","onError");
+		adapter.setQueueOrTagToMethodName(queueOrTagToMethodName);
+
+		container.setMessageListener(adapter);
+		return container;
+	}
 
 
 	// ########################   direct queue 死信队列 配置  ####################################
 
-	@Bean
+	/*@Bean
 	public Queue repeatTradeQueue() {
 		Queue queue = new Queue(QueueConstant.DIRECT_REPEAT_TRADE_QUEUE_NAME,true,false,false);
 		return queue;
@@ -227,7 +321,7 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 		container.setQueues(deadLetterQueue());
 		container.setMessageListener(deadLetterMessageConsumer);
 		return container;
-	}
+	}*/
 }
 
 

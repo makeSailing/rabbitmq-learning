@@ -3,6 +3,8 @@ package com.makesailing.neo.utils;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -25,6 +27,14 @@ public class ConnectionUtils {
     connectionFactory.setUsername("jamie");
     connectionFactory.setPassword("123456");
     connectionFactory.setVirtualHost("/simple");
-    return connectionFactory.newConnection();
+
+    //客户端的消费消息
+    Map<String,Object> clientProperties = new HashMap<>(16);
+    clientProperties.put("desc","支付系统2.0");
+    clientProperties.put("author","zhihao.miao");
+    clientProperties.put("user","zhihao.miao@xxx.com");
+
+    connectionFactory.setClientProperties(clientProperties);
+    return connectionFactory.newConnection("测试");
   }
 }

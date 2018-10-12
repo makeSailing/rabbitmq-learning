@@ -11,16 +11,20 @@ public class QueueConstant {
 	/**
 	 * direct queue
 	 */
-	public static final String TEST_DIRECT_QUEUE = "test.direct.queue";
+	public static final String DIRECT_QUEUE = "test.direct.queue";
 
 	/**
 	 * fanout queue
 	 */
-	public static final String TEST_FANOUT_QUEUE = "test.fanout.queue";
+	public static final String FANOUT_QUEUE = "test.fanout.queue";
 	/**
 	 * topic queue
 	 */
-	public static final String TEST_TOPIC_QUEUE = "test.topic.queue";
+	public static final String TOPIC_QUEUE = "test.topic.queue";
+	/**
+	 * headers queue
+	 */
+	public static final String HEADERS_QUEUE = "test.headers.queue";
 
 	/**
 	 * DLX QUEUE

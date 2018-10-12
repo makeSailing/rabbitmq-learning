@@ -31,6 +31,7 @@ public class FastJsonMessageConverter extends AbstractJsonMessageConverter {
 
 	@Override
 	protected Message createMessage(Object object, MessageProperties messageProperties) {
+		System.out.println("FastJsonMessageConverter createMessage");
 		byte[] bytes = null;
 		try {
 			String jsonString = JSONObject.toJSONString(object);
@@ -51,6 +52,7 @@ public class FastJsonMessageConverter extends AbstractJsonMessageConverter {
 
 	@Override
 	public Object fromMessage(Message message) throws MessageConversionException {
+		System.out.println("FastJsonMessageConverter fromMessage");
 		Object content = null;
 		MessageProperties properties = message.getMessageProperties();
 		if (properties != null) {
@@ -65,13 +67,11 @@ public class FastJsonMessageConverter extends AbstractJsonMessageConverter {
 						message.getMessageProperties());
 					content = convertBytesToObject(message.getBody(),
 						encoding, targetClass);
-				}
-				catch (IOException e) {
+				} catch (IOException e) {
 					throw new MessageConversionException(
 						"Failed to convert Message content", e);
 				}
-			}
-			else {
+			} else {
 				LOGGER.warn("Could not convert incoming message with content-type ["
 					+ contentType + "]");
 			}
