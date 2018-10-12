@@ -70,11 +70,11 @@ public class RabbitMQConfiguration {
 	public RabbitTemplate rabbitTemplate() {
 		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
 		// 默认的采用 jackson ,因为fastjson 强大,这里采用 fastjson进行转换
-		rabbitTemplate.setMessageConverter(messageConverter());
+		//rabbitTemplate.setMessageConverter(messageConverter());
 		return rabbitTemplate;
 	}
 
-	@Bean
+	//@Bean
 	public MessageConverter messageConverter() {
 		return new FastJsonMessageConverter();
 	}

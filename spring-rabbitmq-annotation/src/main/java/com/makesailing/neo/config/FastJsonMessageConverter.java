@@ -3,8 +3,7 @@ package com.makesailing.neo.config;
 import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.support.converter.AbstractJsonMessageConverter;
@@ -18,9 +17,9 @@ import org.springframework.amqp.support.converter.MessageConversionException;
  * @author jamie
  * @date 2018/9/26 10:55
  */
+@Slf4j
 public class FastJsonMessageConverter extends AbstractJsonMessageConverter {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(FastJsonMessageConverter.class);
 
 	private static ClassMapper classMapper =  new DefaultClassMapper();
 
@@ -31,7 +30,7 @@ public class FastJsonMessageConverter extends AbstractJsonMessageConverter {
 
 	@Override
 	protected Message createMessage(Object object, MessageProperties messageProperties) {
-		System.out.println("FastJsonMessageConverter createMessage");
+		log.info(" createMessage method info object [{}] , messageProperties [{}]", object, messageProperties);
 		byte[] bytes = null;
 		try {
 			String jsonString = JSONObject.toJSONString(object);
@@ -52,7 +51,7 @@ public class FastJsonMessageConverter extends AbstractJsonMessageConverter {
 
 	@Override
 	public Object fromMessage(Message message) throws MessageConversionException {
-		System.out.println("FastJsonMessageConverter fromMessage");
+		log.info(" fromMessage method message [{}]", message);
 		Object content = null;
 		MessageProperties properties = message.getMessageProperties();
 		if (properties != null) {
@@ -72,7 +71,7 @@ public class FastJsonMessageConverter extends AbstractJsonMessageConverter {
 						"Failed to convert Message content", e);
 				}
 			} else {
-				LOGGER.warn("Could not convert incoming message with content-type ["
+				log.warn("Could not convert incoming message with content-type ["
 					+ contentType + "]");
 			}
 		}

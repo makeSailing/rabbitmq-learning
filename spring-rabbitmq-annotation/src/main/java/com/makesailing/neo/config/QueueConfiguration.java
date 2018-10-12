@@ -20,6 +20,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -213,6 +214,9 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 	}
 
 
+	@Autowired
+	public TestMessageConverter testMessageConverter;
+
 	/**
 	 * MessageListenerAdapter
 	 1.可以把一个没有实现MessageListener和ChannelAwareMessageListener接口的类适配成一个可以处理消息的处理器
@@ -230,14 +234,23 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 		// 设置处理器的消费消息的默认方法,如果没有设置,那么默认处理器的默认方式是handlerMessage方法
 		adapter.setDefaultListenerMethod("onMessage");
 		Map<String, String> queueOrTagToMethodName = new HashMap<>();
-		queueOrTagToMethodName.put("logger.info","onInfo");
-		queueOrTagToMethodName.put("logger.warn","onWarn");
-		queueOrTagToMethodName.put("logger.error","onError");
+		//queueOrTagToMethodName.put("logger.info","onInfo");
+		//queueOrTagToMethodName.put("logger.warn","onWarn");
+		//queueOrTagToMethodName.put("logger.error","onError");
 		adapter.setQueueOrTagToMethodName(queueOrTagToMethodName);
+
+		// 指定消息处理器
+		//adapter.setMessageConverter(testMessageConverter);
+
+		// RabbitMQ自带的Jackson2JsonMessageConverter转换器
+		// 如果 contentType 是json类型,那么转成json,消费端需使用Map进行接收. 否则都转换成 byte[]数组
+		adapter.setMessageConverter(new Jackson2JsonMessageConverter());
 
 		container.setMessageListener(adapter);
 		return container;
 	}
+
+
 
 
 	// ########################   direct queue 死信队列 配置  ####################################
