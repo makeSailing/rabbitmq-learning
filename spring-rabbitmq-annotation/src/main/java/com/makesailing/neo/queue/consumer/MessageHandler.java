@@ -1,5 +1,6 @@
 package com.makesailing.neo.queue.consumer;
 
+import com.alibaba.fastjson.JSON;
 import com.makesailing.neo.common.MyBody;
 import com.makesailing.neo.domain.User;
 import java.util.List;
@@ -56,7 +57,7 @@ public class MessageHandler {
 	 * @param message
 	 */
 	public void onMessage(User message) {
-		log.info("----- onMessage User----- >>> [{}]", message);
+		log.info("----- onMessage User----- >>> [{}]", JSON.toJSONString(message));
 	}
 
 

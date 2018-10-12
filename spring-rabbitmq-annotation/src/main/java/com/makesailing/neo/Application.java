@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.ImportResource;
  * @date 2018/10/11 14:30
  */
 @Slf4j
+@EnableRabbit
 @ComponentScan
 @ImportResource({"classpath:/applicationContext.xml"})
 public class Application {
@@ -80,13 +82,13 @@ public class Application {
 		// －－－－－－－－－－－－－－－－　　发送 JSON 类型数据　－－－－－－－－－－－－－－－
 
 		// 如果消息生产端没有指定ContentType类型,那么Jackson2JsonMessageConverter消息处理器还是当作 byte[]处理
-		sendJsonMessage(rabbitTemplate);
+		//sendJsonMessage(rabbitTemplate);
 
 		//  指定消息 ContentType 类型为 application/json ,消费者需使用 Map进行消息接收
-		sendApplicationJsonMessage(rabbitTemplate);
+		//sendApplicationJsonMessage(rabbitTemplate);
 
 		// 发送 List JSON 类型数据 消费者需要使用 List 进行接收
-		sendListJsonMessage(rabbitTemplate);
+		//sendListJsonMessage(rabbitTemplate);
 
 
 		/**
@@ -101,9 +103,18 @@ public class Application {
 		// 我们需要消费者将生产者的消息对象格式转换成对应的消息格式，而不是Map或者List对象　－－－－－－－－－－－－－－－
 
 		// 发送User JSON数据,并指定消费者使用User对象进行接收
-		sendUserMessage(rabbitTemplate);
+		//sendUserMessage(rabbitTemplate);
 
+		// －－－－－－－－－－－－－－－－　　@RabbitListener 注解使用　－－－－－－－－－－－－－－－
 
+		/**
+		 * @RabbitListener和@RabbitHandler搭配使用
+		 @RabbitListener可以标注在类上面，当使用在类上面的时候，需要配合@RabbitHandler注解一起使用，
+		 @RabbitListener标注在类上面表示当有收到消息的时候，就交给带有@RabbitHandler的方法处理，具体找哪个方法处理，需要跟进MessageConverter转换后的
+
+		 */
+
+		rabbitTemplate.convertAndSend("test.order.direct.exchange","test.order.routing.key", "hello rabbitmq order");
 
 		TimeUnit.SECONDS.sleep(30);
 		context.close();

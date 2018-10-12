@@ -224,7 +224,8 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 	 3.MessageListenerAdapter支持不同的队列交给不同的方法去执行。使用setQueueOrTagToMethodName方法设置，当根据queue名称没有找到匹配的方法的时候，就会交给默认的方法去处理。
 	 * @return
 	 */
-	@Bean
+
+	//@Bean
 	public SimpleMessageListenerContainer messageListenerContainer() {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory());
