@@ -1,4 +1,4 @@
-package com.makesailing.neo.client.publisher.confirms;
+package com.makesailing.neo.queue.publisher.confirms.client;
 
 
 import com.rabbitmq.client.AMQP;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2018/10/15 14:36
  */
 @Slf4j
-public class Send {
+public class ClientSend {
 
 	static AtomicLong id = new AtomicLong(0);
 
