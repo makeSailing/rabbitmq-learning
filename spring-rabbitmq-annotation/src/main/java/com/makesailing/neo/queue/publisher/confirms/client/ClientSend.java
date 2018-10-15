@@ -1,11 +1,11 @@
 package com.makesailing.neo.queue.publisher.confirms.client;
 
 
+import com.makesailing.neo.common.ConnectionUtils;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConfirmListener;
 import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 import java.io.IOException;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
@@ -34,14 +34,7 @@ public class ClientSend {
 
 	public static void main(String[] args) throws Exception {
 
-		ConnectionFactory connectionFactory = new ConnectionFactory();
-		connectionFactory.setHost("127.0.0.1");
-		connectionFactory.setPort(5672);
-		connectionFactory.setUsername("jamie");
-		connectionFactory.setPassword("123456");
-		connectionFactory.setVirtualHost("/simple");
-
-		Connection connection = connectionFactory.newConnection();
+		Connection connection = ConnectionUtils.getConnection();
 		Channel channel = connection.createChannel();
 
 		// 使当前的channel处于确认模式
@@ -101,13 +94,13 @@ public class ClientSend {
 		// 表示等待已经发送给broker的消息act或者nack之后才会继续执行，如果有任何一个消息触发了nack则抛出IOException
 		//channel.waitForConfirmsOrDie();
 
-		id = send(channel,"你的外卖已经送达".getBytes());
-		tags.add(id);
-		channel.waitForConfirms();
+		//id = send(channel,"你的外卖已经送达".getBytes());
+		//tags.add(id);
+		//channel.waitForConfirms();
 
-		id = send(channel,"呵呵，不接电话".getBytes());
-		tags.add(id);
-		channel.waitForConfirms();
+		//id = send(channel,"呵呵，不接电话".getBytes());
+		//tags.add(id);
+		//channel.waitForConfirms();
 
 		TimeUnit.SECONDS.sleep(10);
 
