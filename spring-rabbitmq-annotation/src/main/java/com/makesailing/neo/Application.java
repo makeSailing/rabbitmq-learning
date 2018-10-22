@@ -116,11 +116,29 @@ public class Application {
 
 		//rabbitTemplate.convertAndSend("test.order.direct.exchange","test.order.routing.key", "hello rabbitmq order");
 
-		sendMessageTTL(rabbitTemplate,"30000");
+		//sendMessageTTL(rabbitTemplate,"30000");
+
+		sendMessageLength(rabbitTemplate, 10);
 
 		TimeUnit.SECONDS.sleep(30);
 		context.close();
 
+	}
+
+	/**
+	 * 限制消息发送长度
+	 * @param rabbitTemplate
+	 * @param length
+	 */
+	private static void sendMessageLength(RabbitTemplate rabbitTemplate, int length) {
+		MessageProperties properties = new MessageProperties();
+		properties.setContentType("application/json");
+		Message message = new Message("hello".getBytes(), properties);
+		// apple ququq 最多只能有3个队列,多了会从最早的队列开始删除
+		for (int i = 0; i < 10; i++) {
+			rabbitTemplate.convertAndSend("", "apple", message);
+			rabbitTemplate.convertAndSend("", "banana", message);
+		}
 	}
 
 	/**

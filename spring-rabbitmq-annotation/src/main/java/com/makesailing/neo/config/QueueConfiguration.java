@@ -252,7 +252,7 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 	}
 
 	/**
-	 * 定义过期消费 30s
+	 * 定义过期消费 30s queue ttl
 	 * @return
 	 */
 	@Bean
@@ -262,6 +262,35 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 		Queue duanxin = new Queue("duanxin", true, false, false, arguments);
 		return duanxin;
 	}
+
+	/**
+	 * 设置 消息长度 x-max-length
+	 * eg : 测试队列中最多只有5个消息，当第六条消息发送过来的时候，会删除最早的那条消息。队列中永远只有5条消息
+	 * @return
+	 */
+	@Bean
+	public Queue appleQueue() {
+		Map<String, Object> arguments = new HashMap<>();
+		arguments.put("x-max-length", 3);
+		Queue apple = new Queue("apple", true, false, false, arguments);
+		return apple;
+	}
+
+	/**
+	 * 设置 消息字节长度 x-max-length-bytes
+	 * eg : 往这个队列发送消息，第一条消息为11，第二条为2222，第三条市3333，
+	 *      然后再发送的话就会将最先入队列的第一条消息删除，如果删除之后还是不够存储新的消息，依次删除第二个消息，循环如此
+	 * @return
+	 */
+	@Bean
+	public Queue bananaQueue() {
+		Map<String, Object> arguments = new HashMap<>();
+		arguments.put("x-max-length-bytes", 10);
+		Queue banana = new Queue("banana", true, false, false, arguments);
+		return banana;
+	}
+
+
 
 
 
