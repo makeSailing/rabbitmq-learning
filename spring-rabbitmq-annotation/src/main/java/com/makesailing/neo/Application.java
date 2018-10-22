@@ -114,10 +114,33 @@ public class Application {
 
 		 */
 
-		rabbitTemplate.convertAndSend("test.order.direct.exchange","test.order.routing.key", "hello rabbitmq order");
+		//rabbitTemplate.convertAndSend("test.order.direct.exchange","test.order.routing.key", "hello rabbitmq order");
+
+		sendMessageTTL(rabbitTemplate,"30000");
 
 		TimeUnit.SECONDS.sleep(30);
 		context.close();
+
+	}
+
+	/**
+	 * 发送消息时设置过期时间
+	 * @param rabbitTemplate
+	 * @param expiration 毫秒
+	 */
+	private static void sendMessageTTL(RabbitTemplate rabbitTemplate,String expiration) {
+		// 设置Message TTL
+		MessageProperties properties = new MessageProperties();
+		properties.setContentType("application/json");
+		// 设置消息的过期时间
+		properties.setExpiration(expiration);
+		Message message = new Message("hello rabbitmq message ttl".getBytes(), properties);
+		rabbitTemplate.convertAndSend("", "weixin", message);
+
+		// 在代码里定义 Queue TTL
+		rabbitTemplate.convertAndSend("", "duanxin", "hello rabbitmq queue ttl");
+
+		//如果同时制定了Message TTL，Queue TTL，则小的那个时间生效。
 
 	}
 

@@ -251,6 +251,19 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 		return container;
 	}
 
+	/**
+	 * 定义过期消费 30s
+	 * @return
+	 */
+	@Bean
+	public Queue duanXieQueue() {
+		Map<String, Object> arguments = new HashMap<>();
+		arguments.put("x-message-ttl", 30000);
+		Queue duanxin = new Queue("duanxin", true, false, false, arguments);
+		return duanxin;
+	}
+
+
 
 
 
