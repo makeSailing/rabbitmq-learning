@@ -46,6 +46,8 @@ public class QueueConstant {
 
 	public static final String ORANGE_QUEUE = "test.orange.queue";
 
+	public static final String PEACH_QUEUE = "test.peach.queue";
+
 	// =================== 死信队列 end ==============================
 }
 

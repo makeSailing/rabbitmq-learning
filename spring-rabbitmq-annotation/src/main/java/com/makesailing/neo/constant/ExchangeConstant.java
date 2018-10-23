@@ -41,6 +41,10 @@ public class ExchangeConstant {
 	 * 桔子交换机
 	 */
 	public static final String ORANGE_EXCHANGE = "test.orange.exchange";
+	/**
+	 * 桃子交换机
+	 */
+	public static final String PEACH_EXCHANGE = "test.peach.exchange";
 
 
 

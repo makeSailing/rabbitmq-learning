@@ -51,6 +51,8 @@ public class RoutingKeyConstant {
 
 	public static final String ORANGE_ROUTING_KEY = "test.orange.routing.key";
 
+	public static final String PEACH_ROUTING_KEY = "test.peach.routing.key";
+
 	// =================== 死信队列 end ==============================
 
 

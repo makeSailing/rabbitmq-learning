@@ -6,11 +6,13 @@ import com.makesailing.neo.constant.RoutingKeyConstant;
 import com.makesailing.neo.queue.consumer.DirectMessageConsumer;
 import com.makesailing.neo.queue.consumer.FanoutMessageConsumer;
 import com.makesailing.neo.queue.consumer.MessageHandler;
+import com.makesailing.neo.queue.consumer.PeachMessageConsumer;
 import com.makesailing.neo.queue.consumer.TopicMessageConsumer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -354,6 +356,46 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 			.with(RoutingKeyConstant.ORANGE_ROUTING_KEY);
 		return binding;
 	}
+
+	// 测试消息队列被拒绝且 requeue =false ,消息流到死信队列
+	@Bean
+	public Queue peachQueue() {
+		Map<String, Object> arguments = new HashMap<>();
+		// 队列绑定死信交换机
+		arguments.put("x-dead-letter-exchange", ExchangeConstant.DEAD_LETTER_EXCHANGE);
+		// 队列绑定死信路由键
+		arguments.put("x-dead-letter-routing-key", RoutingKeyConstant.DEAD_LETTER_ROUTING_KEY);
+
+		Queue queue = new Queue(QueueConstant.PEACH_QUEUE, true, false, false, arguments);
+		return queue;
+	}
+
+	@Bean
+	public DirectExchange peachExchange() {
+		DirectExchange directExchange = new DirectExchange(ExchangeConstant.PEACH_EXCHANGE, true, false);
+		return directExchange;
+	}
+
+	@Bean
+	public Binding peachBinding() {
+		Binding binding = BindingBuilder.bind(peachQueue()).to(peachExchange())
+			.with(RoutingKeyConstant.PEACH_ROUTING_KEY);
+		return binding;
+	}
+
+	@Autowired
+	private PeachMessageConsumer peachMessageConsumer;
+
+	@Bean
+	public SimpleMessageListenerContainer peachMessageListenerContainer() {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory());
+		container.setQueues(peachQueue());
+		// 定义消费者手动确认
+		container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+		container.setMessageListener(peachMessageConsumer);
+		return container;
+	}
+
 
 	// ########################   direct queue 死信队列 配置 end  ####################################
 

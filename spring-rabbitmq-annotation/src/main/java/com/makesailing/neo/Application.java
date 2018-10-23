@@ -135,10 +135,13 @@ public class Application {
 	 */
 	private static void sendDeadLetterMessage(RabbitTemplate rabbitTemplate) {
 		String message = "Hello Dead Letter RabbitMQ --> ";
-		for (int i = 0; i < 5; i++) {
+
+		/*for (int i = 0; i < 5; i++) {
 			rabbitTemplate
 				.convertAndSend(ExchangeConstant.ORANGE_EXCHANGE, RoutingKeyConstant.ORANGE_ROUTING_KEY, message + i);
-		}
+		}*/
+
+		rabbitTemplate.convertAndSend(ExchangeConstant.PEACH_EXCHANGE, RoutingKeyConstant.PEACH_ROUTING_KEY, message);
 	}
 
 	/**
