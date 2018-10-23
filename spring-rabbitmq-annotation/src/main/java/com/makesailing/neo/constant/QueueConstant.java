@@ -39,6 +39,14 @@ public class QueueConstant {
 	 * 邮件队列queue
 	 */
 	public static final String TEST_MAIL_QUEUE = "test.mail.queue";
+
+	// =================== 死信队列 start ==============================
+
+	public static final String DEAD_LETTER_QUEUE_NAME = "test.dead.letter.queue";
+
+	public static final String ORANGE_QUEUE = "test.orange.queue";
+
+	// =================== 死信队列 end ==============================
 }
 
 

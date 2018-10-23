@@ -290,6 +290,73 @@ public class QueueConfiguration extends RabbitMQConfiguration{
 		return banana;
 	}
 
+	// ########################   Dead Letter Exchange direct queue 死信队列 配置 start  ####################################
+
+	/**
+	 * Dead Letter Exchange 在队列上指定个Exchange,则在该队列发生如下情况,就会产生死信队列:
+	 * 1.消息被拒绝(basic.reject or basic.nack),且 requere = false ;
+	 * 2.消息过期而被删除(TTL)
+	 * 3.消息数量超过队列最大限制而被删除
+	 * 4.消息总大小超过队列最大限制而被删除
+	 */
+
+	// step 1 声明一个接收被删除的消息的交换机和队列
+	@Bean
+	public Queue deadLetterNewQueue() {
+		Queue queue = new Queue(QueueConstant.DEAD_LETTER_QUEUE_NAME, true, false, false);
+		return queue;
+	}
+
+	@Bean
+	public DirectExchange deadLetterNewExchange(){
+		DirectExchange directExchange = new DirectExchange(ExchangeConstant.DEAD_LETTER_EXCHANGE, true, false);
+		return directExchange;
+	}
+
+	@Bean
+	public Binding deadLetterNewBinding() {
+		Binding binding = BindingBuilder.bind(deadLetterNewQueue()).to(deadLetterNewExchange())
+			.with(RoutingKeyConstant.DEAD_LETTER_ROUTING_KEY);
+		return binding;
+	}
+
+	// step 2 声明正常的quque,并设置其参数 x-dead-letter-exchange x-dead-letter-routing-key 与死信队列相对应
+
+	@Bean
+	public Queue orangeQueue() {
+		Map<String, Object> arguments = new HashMap<>();
+		// 设置队列的有效时间,单位毫秒
+		arguments.put("x-message-ttl", 15000);
+		// 设置队列的长度大小,超过则会删除最前面
+		arguments.put("x-max-length", 4);
+		// 设置队列的大小,超过则会删除最前面的来满足要求
+		arguments.put("x-max-length-bytes", 1024);
+		// 用于当多长时间没有消费者访问该队列的时候，该队列会自动删除
+		arguments.put("x-expires", 30000);
+		// 队列绑定死信交换机
+		arguments.put("x-dead-letter-exchange", ExchangeConstant.DEAD_LETTER_EXCHANGE);
+		// 队列绑定死信路由键
+		arguments.put("x-dead-letter-routing-key", RoutingKeyConstant.DEAD_LETTER_ROUTING_KEY);
+
+		Queue queue = new Queue(QueueConstant.ORANGE_QUEUE, true, false, false, arguments);
+		return queue;
+	}
+
+	@Bean
+	public DirectExchange orangeExchange() {
+		DirectExchange directExchange = new DirectExchange(ExchangeConstant.ORANGE_EXCHANGE, true, false);
+		return directExchange;
+	}
+
+	@Bean
+	public Binding orangeBinding() {
+		Binding binding = BindingBuilder.bind(orangeQueue()).to(orangeExchange())
+			.with(RoutingKeyConstant.ORANGE_ROUTING_KEY);
+		return binding;
+	}
+
+	// ########################   direct queue 死信队列 配置 end  ####################################
+
 
 
 

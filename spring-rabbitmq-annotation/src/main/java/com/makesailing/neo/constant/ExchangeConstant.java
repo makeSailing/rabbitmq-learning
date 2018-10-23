@@ -37,6 +37,11 @@ public class ExchangeConstant {
 	 */
 	public static final String MAIL_EXCHANGE = "test.mail.exchange";
 
+	/**
+	 * 桔子交换机
+	 */
+	public static final String ORANGE_EXCHANGE = "test.orange.exchange";
+
 
 
 

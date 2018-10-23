@@ -1,5 +1,7 @@
 package com.makesailing.neo;
 import com.alibaba.fastjson.JSON;
+import com.makesailing.neo.constant.ExchangeConstant;
+import com.makesailing.neo.constant.RoutingKeyConstant;
 import com.makesailing.neo.domain.User;
 import java.util.ArrayList;
 import java.util.Date;
@@ -118,11 +120,25 @@ public class Application {
 
 		//sendMessageTTL(rabbitTemplate,"30000");
 
-		sendMessageLength(rabbitTemplate, 10);
+		//sendMessageLength(rabbitTemplate, 10);
+
+		sendDeadLetterMessage(rabbitTemplate);
 
 		TimeUnit.SECONDS.sleep(30);
 		context.close();
 
+	}
+
+	/**
+	 * 发送死信队列消息
+	 * @param rabbitTemplate
+	 */
+	private static void sendDeadLetterMessage(RabbitTemplate rabbitTemplate) {
+		String message = "Hello Dead Letter RabbitMQ --> ";
+		for (int i = 0; i < 5; i++) {
+			rabbitTemplate
+				.convertAndSend(ExchangeConstant.ORANGE_EXCHANGE, RoutingKeyConstant.ORANGE_ROUTING_KEY, message + i);
+		}
 	}
 
 	/**

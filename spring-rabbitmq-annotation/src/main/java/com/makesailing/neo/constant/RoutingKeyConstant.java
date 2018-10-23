@@ -14,6 +14,7 @@ public class RoutingKeyConstant {
 	 * 死信队列 routingKey
 	 */
 	public static final String DIRECT_DEAD_LETTER_ROUTING_KEY = "test.direct.dead.letter.routing.key";
+
 	/**
 	 * 死信队列后重发 routingKey
 	 */
@@ -40,8 +41,17 @@ public class RoutingKeyConstant {
 	public static final String TOPIC_ORANGE_ROUTING_KEY = "*.orange.*";
 
 	public static final String TOPIC_RABBIT_ROUTING_KEY = "*.*.rabbit";
+
 	public static final String TOPIC_LAZY_ROUTING_KEY = "lazy.#";
 
+
+	// =================== 死信队列 start ==============================
+
+	public static final String DEAD_LETTER_ROUTING_KEY = "test.dead.letter.routing.key";
+
+	public static final String ORANGE_ROUTING_KEY = "test.orange.routing.key";
+
+	// =================== 死信队列 end ==============================
 
 
 

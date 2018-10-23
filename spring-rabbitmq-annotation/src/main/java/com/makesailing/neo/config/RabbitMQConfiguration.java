@@ -79,6 +79,9 @@ public class RabbitMQConfiguration {
 	@Bean
 	public RabbitAdmin rabbitAdmin() {
 		RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory());
+		// 如果设置错误,可以进行删除
+		//rabbitAdmin.deleteQueue(QueueConstant.DEAD_LETTER_QUEUE_NAME);
+		//rabbitAdmin.deleteQueue(QueueConstant.ORANGE_QUEUE);
 		return rabbitAdmin;
 	}
 
